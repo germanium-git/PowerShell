@@ -4,7 +4,7 @@
 .DESCRIPTION Replace Azure VM OS Disk for Linux and Windows.
 
 .LINK
-For more information please visit: https://github.com/germanium-git/PowerShell/azure_rename_disk
+For more information please visit: https://github.com/germanium-git/PowerShell/tree/main/azure_rename_disk
 
 .EXAMPLE
 .\Replace-AzOSDisk.ps1 -resourceGroup [ResourceGroupName] `

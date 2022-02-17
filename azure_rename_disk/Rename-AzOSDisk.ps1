@@ -4,7 +4,7 @@
 .DESCRIPTION Create a copy of an OS Disk restored from backup.
 
 .LINK
-For more information please visit: https://github.com/germanium-git/PowerShell/azure_rename_disk
+For more information please visit: https://github.com/germanium-git/PowerShell/tree/main/azure_rename_disk
 
 .EXAMPLE
 .\Rename-AzOSDisk.ps1 -resourceGroup [ResourceGroupName] `
