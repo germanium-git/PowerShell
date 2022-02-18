@@ -61,13 +61,13 @@ $sourceOSDisk = Get-AzDisk -ResourceGroupName $resourceGroup -DiskName $VM.Stora
 
 
 #! Get restored OS Disk information
-Write-Verbose "Get the source OS Disk information: $restoreddiskName"
+Write-Verbose "Get the restored OS Disk information: $restoreddiskName"
 $restoredOSDisk = Get-AzDisk -ResourceGroupName $resourceGroup -DiskName $restoreddiskName
 
 
 #! Swap the OS Disk
 Write-Verbose "Swap the OS disk to: $restoreddiskName"
-Set-AzVMOSDisk -VM $VM -ManagedDiskId $restoredOSDisk.Id -Name $osdiskName | Out-Null
+Set-AzVMOSDisk -VM $VM -ManagedDiskId $restoredOSDisk.Id -Name $restoredOSDisk.Name | Out-Null
 Write-Verbose "The VM is rebooting..."
 Update-AzVM -ResourceGroupName $resourceGroup -VM $VM
 

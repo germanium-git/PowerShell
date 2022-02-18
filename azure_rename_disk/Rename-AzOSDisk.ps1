@@ -20,9 +20,9 @@ Then the script will create a copy of the disk in Azure with desired name.
 
 [CmdletBinding()]
 Param (
-    [Parameter(Position = 0, Mandatory = $True, HelpMessage = 'Enter Azure VM name')]
+    [Parameter(Position = 0, Mandatory = $True, HelpMessage = 'Enter the Resource Group of the VM')]
     [Alias('VM')]
-    [String]$VMName,
+    [String]$resourceGroup,
 
     [Parameter(Position = 1, Mandatory = $true, HelpMessage = 'Enter the existing OS Disk name')]
     [Alias('DiskName')]
@@ -59,10 +59,19 @@ $sourceOSDisk = Get-AzDisk -ResourceGroupName $resourceGroup -DiskName $osdiskNa
 #! Create the managed disk configuration
 Write-Verbose "Create the managed disk configuration..."
 $diskConfig = New-AzDiskConfig -SkuName $sourceOSDisk.Sku.Name `
-    -Location $VM.Location `
+    -Location $sourceOSDisk.Location `
     -DiskSizeGB ($sourceOSDisk | select -ExpandProperty DiskSizeGB) `
+    -Zone (($sourceOSDisk | select -ExpandProperty Zones)) `
     -SourceResourceId $sourceOSDisk.Id -CreateOption Copy
 
 #! Create the new disk
 Write-Verbose "Creating the new OS disk: $newdiskName"
 New-AzDisk -Disk $diskConfig -DiskName $newdiskName -ResourceGroupName $resourceGroup
+
+
+#! Delete the old OS Disk
+$delete = Read-Host "Do you want to delete the original OS Disk [y/n]"
+If ($delete -eq "y" -or $delete -eq "Y") {
+    Write-Warning "Deleting the old OS Disk: $($sourceOSDisk.Name)"
+    Remove-AzDisk -ResourceGroupName $resourceGroup -DiskName $sourceOSDisk.Name -Force -Confirm:$false
+}
