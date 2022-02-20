@@ -1,6 +1,6 @@
 # Azure - Rename or replace OS disk
 
-## Rename-AzOSDisk-wo-swap.ps1
+## Replace-AzOSDisk.ps1
 
 This example will create a copy of the OS Disk not attached to any VM.
 Use case - Rename the OS disk restored from the backup.
