@@ -3,9 +3,6 @@
 
 .DESCRIPTION Create a copy of an OS Disk restored from backup.
 
-.LINK
-For more information please visit: https://github.com/germanium-git/PowerShell/tree/main/azure_rename_disk
-
 .EXAMPLE
 .\Rename-AzOSDisk.ps1 -resourceGroup [ResourceGroupName] `
     -osdiskName [OSDiskName] `
@@ -20,8 +17,8 @@ Then the script will create a copy of the disk in Azure with desired name.
 
 [CmdletBinding()]
 Param (
-    [Parameter(Position = 0, Mandatory = $True, HelpMessage = 'Enter the Resource Group of the VM')]
-    [Alias('VM')]
+    [Parameter(Position = 0, Mandatory = $True, HelpMessage = 'Enter the Resource Group name')]
+    [Alias('RG')]
     [String]$resourceGroup,
 
     [Parameter(Position = 1, Mandatory = $true, HelpMessage = 'Enter the existing OS Disk name')]
@@ -63,6 +60,7 @@ $diskConfig = New-AzDiskConfig -SkuName $sourceOSDisk.Sku.Name `
     -DiskSizeGB ($sourceOSDisk | select -ExpandProperty DiskSizeGB) `
     -Zone (($sourceOSDisk | select -ExpandProperty Zones)) `
     -SourceResourceId $sourceOSDisk.Id -CreateOption Copy
+
 
 #! Create the new disk
 Write-Verbose "Creating the new OS disk: $newdiskName"
